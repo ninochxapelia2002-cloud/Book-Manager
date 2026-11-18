@@ -1,0 +1,27 @@
+[
+    {
+        "title": "ვეფხისტყაოსანი",
+        "author": "შოთა რუსთაველი",
+        "year": 1712
+    },
+    {
+        "title": "კაცი, რომელიც იცინის",
+        "author": "ვიქტორ ჰიუგო",
+        "year": 1234
+    },
+    {
+        "title": "გაბრიელ გარსია მარკესი",
+        "author": "გაბრიელ გარსია მარკესი",
+        "year": 1524
+    },
+    {
+        "title": "Python Crash Course",
+        "author": "Eric Matthes",
+        "year": 2019
+    },
+    {
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "year": 1234
+    }
+]

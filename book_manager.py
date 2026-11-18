@@ -1,11 +1,45 @@
-
 from book import Book
+import json
+import os
 
 
 class BookManager:
 
-    def __init__(self):
+    def __init__(self, filename="books.json"):
+        
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        self.filename = os.path.join(current_dir, filename)
+        
         self.__books = []
+        self._load_from_file()
+
+    # ფაილიდან წიგნების ჩატვირთვა
+    def _load_from_file(self):
+        if not os.path.exists(self.filename):
+            return
+        
+        try:
+            with open(self.filename, "r", encoding="utf-8") as file:
+                data = json.load(file)
+                for item in data:
+                    book = Book(item["title"], item["author"], item["year"])
+                    self.__books.append(book)
+        except (json.JSONDecodeError, KeyError):
+            print("ფაილის წაკითხვისას მოხდა შეცდომა ან ფაილი დაზიანებულია.")
+
+    # ფაილში წიგნების შენახვა
+    def _save_to_file(self):
+        data = [
+            {
+                "title": book.title,
+                "author": book.author,
+                "year": book.year
+            }
+            for book in self.__books
+        ]
+        with open(self.filename, "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
 
     # წიგნის დამატება
     def add_book(self, book):
@@ -13,6 +47,7 @@ class BookManager:
             raise TypeError("უნდა დაემატოს Book კლასის ობიექტი.")
 
         self.__books.append(book)
+        self._save_to_file()  # ავტომატური შენახვა ფაილში
 
     # ყველა წიგნის მიღება
     def get_all_books(self):
@@ -53,6 +88,7 @@ class BookManager:
         for book in self.__books:
             if book.title.casefold() == title.strip().casefold():
                 self.__books.remove(book)
+                self._save_to_file() 
                 return book
 
         return None
